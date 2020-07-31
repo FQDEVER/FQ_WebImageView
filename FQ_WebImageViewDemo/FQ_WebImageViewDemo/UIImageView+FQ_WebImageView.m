@@ -21,7 +21,7 @@
 //终极方案
 - (void)fq_setImageWithURLString:(NSString *)URLString placeholder:(UIImage *)placeholder finishBlock:(void (^)(UIImage *image)) finishedBlock {
     
-    //用户滑动的时候
+    //用户滑动的时候.滑动的时候cell重用.所以可能当前待加载的图片与需要加载的图片不一致.那么就取消当前的.让最新加入的加入到队列中.
     if (self.currentURLString && ![URLString isEqualToString:self.currentURLString]) {
         
         [[FQ_DownLoadManager shareManager] fq_cancelImageShowCell:self.currentURLString];
@@ -72,8 +72,9 @@
     [[FQ_DownLoadManager shareManager] fq_downloadImageWithUrlString:self.currentURLString andImage:placeholder finishBlock:^(UIImage *image) {
         
             if (![image isEqual:placeholder]) {//防止cell重用.
-                
-                weakSelf.image = image;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.image = image;
+                });
                 
             }
     }];

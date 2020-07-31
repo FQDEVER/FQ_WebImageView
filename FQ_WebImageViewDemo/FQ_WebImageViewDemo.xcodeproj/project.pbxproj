@@ -204,6 +204,7 @@
 				TargetAttributes = {
 					B965BE2F1E6DBBCF0054DF13 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 62LWBD39ZE;
 						ProvisioningStyle = Automatic;
 					};
 					B965BE481E6DBBCF0054DF13 = {
@@ -218,6 +219,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -393,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 62LWBD39ZE;
 				INFOPLIST_FILE = FQ_WebImageViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.fanqi.FQ-WebImageViewDemo";
@@ -404,6 +407,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 62LWBD39ZE;
 				INFOPLIST_FILE = FQ_WebImageViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.fanqi.FQ-WebImageViewDemo";
@@ -452,6 +456,7 @@
 				B965BE541E6DBBCF0054DF13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B965BE551E6DBBCF0054DF13 /* Build configuration list for PBXNativeTarget "FQ_WebImageViewDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -460,6 +465,7 @@
 				B965BE571E6DBBCF0054DF13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

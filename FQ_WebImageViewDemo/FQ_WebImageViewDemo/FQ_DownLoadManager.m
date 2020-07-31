@@ -105,6 +105,7 @@ static NSString * mutableArray;
     
     [self.downloadQueue addOperation:downloadOp];
     
+    [downloadOp start];
 }
 
 

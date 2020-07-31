@@ -39,59 +39,10 @@
 }
 
 //CPU调度该操作,会执行main
-- (void)main {
-    @autoreleasepool {
-        
-        //断言,保证必须传入完成回调,简化后续代码的分支
-        NSAssert(self.finishedBlock != nil, @"必需传入回调的block");
-        //在这里面执行下载操作
-        NSLog(@"正在下载:%@",self.urlString);
-        
-        NSURL  *url = [NSURL URLWithString:self.urlString];
-        
-        //方案一:
-        
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        
-        UIImage *image = [UIImage imageWithData:data];
-        
-        //方案二:大图.使用方案二有惊喜
-//        CGImageRef imgRef = [self createThumbnailCGImageFromURL:url andImageSize:600];//传入你需要图片的宽
-//        UIImage *img = [UIImage imageWithCGImage:imgRef];
-        
-        
-        NSString * path =self.urlString.appendCachePath;
-        
-        //将数据存入沙盒
-        if (data != nil) {
-            
-            [data writeToFile:path atomically:YES];
-        }
-        
-        //回主线程更新UI
-        
-        if (self.isCancelled) {
-            
-            NSLog(@"操作被取消了");
-            
-            return;
-        }
-        
-        /*
-         1.这里的思路.每次只让他来最多5条.然后其他的就让他等待.
-         */
-        
-        if (image!=nil) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                //如果有其他耗时操作来这里.例如VR渲染
-                
-                self.finishedBlock(image);
-            });
-        }
-    }
-    
-}
+//- (void)main {
+//
+//
+//}
 
 
 //直接获取CGImageRef对象.不需要保存到本地.这样在内存中获取到我们需要的图片以后再保存.
@@ -143,8 +94,59 @@
 
 //将操作添加到可调度线程池中
 -(void)start {
-    
-    [super start];
+//    [super start];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        @autoreleasepool {
+                
+                //断言,保证必须传入完成回调,简化后续代码的分支
+                NSAssert(self.finishedBlock != nil, @"必需传入回调的block");
+                //在这里面执行下载操作
+                NSLog(@"正在下载:%@",self.urlString);
+                
+                NSURL  *url = [NSURL URLWithString:self.urlString];
+                
+                //方案一:
+                
+                NSData *data = [NSData dataWithContentsOfURL:url];
+                
+                UIImage *image = [UIImage imageWithData:data];
+                
+                //方案二:大图.使用方案二有惊喜
+        //        CGImageRef imgRef = [self createThumbnailCGImageFromURL:url andImageSize:600];//传入你需要图片的宽
+        //        UIImage *img = [UIImage imageWithCGImage:imgRef];
+                
+                
+                NSString * path =self.urlString.appendCachePath;
+                
+                //将数据存入沙盒
+                if (data != nil) {
+                    
+                    [data writeToFile:path atomically:YES];
+                }
+                
+                //回主线程更新UI
+                
+                if (self.isCancelled) {
+                    
+                    NSLog(@"操作被取消了");
+                    
+                    return;
+                }
+                
+                /*
+                 1.这里的思路.每次只让他来最多5条.然后其他的就让他等待.
+                 */
+                
+                if (image!=nil) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        
+                        //如果有其他耗时操作来这里.例如VR渲染
+                        
+                        self.finishedBlock(image);
+                    });
+                }
+            }
+    });
     
 }
 
